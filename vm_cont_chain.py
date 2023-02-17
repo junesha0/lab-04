@@ -12,30 +12,30 @@ def on_connect(client, userdata, flags, rc):
     will be called again thus renewing the subscriptions"""
 
     print("Connected to server (i.e., broker) with result code "+str(rc))
-    client.subscribe("claireyu/pong")
+    client.subscribe("claireyu/ping")
     
     #Add the custom callbacks by indicating the topic and the name of the callback handle
-    client.message_callback_add("claireyu/pong", on_message_from_pong)
+    client.message_callback_add("claireyu/ping", on_message_from_ping)
     
 
-def on_message_from_pong(client, userdata, message):
-   """Print integer from pong message and publish the next integer onto ping.
+#Custom message callback.
+def on_message_from_ping(client, userdata, message):
+   """Print integer from ping message and publish the next integer onto pong.
    """
-   
    i = int(message.payload.decode())
-   print("Custom callback  - Pong: ", i)
+   print("Custom callback  - Ping: ", i)
    
    # Increase integer by 1 and publish
    i += 1
    time.sleep(1)
-   client.publish("claireyu/ping", f"{i}")
+   client.publish("claireyu/pong", f"{i}")
     
 
 if __name__ == '__main__':    
-    # create a client object
+    #create a client object
     client = mqtt.Client()
     
-    # attach the on_connect() callback function defined above to the mqtt client
+    #attach the on_connect() callback function defined above to the mqtt client
     client.on_connect = on_connect
     
     """Connect using the following hostname, port, and keepalive interval (in 
@@ -47,12 +47,7 @@ if __name__ == '__main__':
     `client.on_connect` will be called."""
     client.connect("172.20.10.4", port=1883, keepalive=60)
 
-    
-    # Start by publishing a 1
-    i = 1
-    client.publish("claireyu/ping", f"{i}")
-    
-    # Loop indefinitely 
+    # run indefinitely
     client.loop_forever()
         
         
