@@ -14,11 +14,14 @@ def on_connect(client, userdata, flags, rc):
 
     print("Connected to server (i.e., broker) with result code "+str(rc))
     #replace user with your USC username in all subscriptions
-    client.subscribe("user/ipinfo")
+    client.subscribe("juneshao/ipinfo") ## subscribes to all of the topics
+    client.subscribe("juneshao/time")
+    client.subscribe("juneshao/date")
     
     #Add the custom callbacks by indicating the topic and the name of the callback handle
-    client.message_callback_add("user/ipinfo", on_message_from_ipinfo)
-
+    client.message_callback_add("juneshao/ipinfo", on_message_from_ipinfo)
+    client.message_callback_add("juneshao/time", on_message_from_time)
+    client.message_callback_add("juneshao/date", on_message_from_date)
 
 """This object (functions are objects!) serves as the default callback for 
 messages received when another node publishes a message this client is 
@@ -29,10 +32,13 @@ def on_message(client, userdata, msg):
 
 #Custom message callback.
 def on_message_from_ipinfo(client, userdata, message):
-   print("Custom callback  - IP Message: "+message.payload.decode())
-
-
-
+   print("Custom callback  - IP Message: "+message.payload.decode()) ##if you get a message to ipinfo topic, print out the message
+   
+def on_message_from_time(client, userdata, message):
+   print("Custom callback  - TIME: "+message.payload.decode()) ## if you get a message to the topic time print the message
+   
+def on_message_from_date(client, userdata, message):
+   print("Custom callback  - DATE: "+message.payload.decode()) ## if you get a message to the topic date print the message
 
 if __name__ == '__main__':
     
