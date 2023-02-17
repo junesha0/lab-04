@@ -14,7 +14,7 @@ def on_connect(client, userdata, flags, rc):
 
     print("Connected to server (i.e., broker) with result code "+str(rc))
     #replace user with your USC username in all subscriptions
-    client.subscribe("juneshao/ipinfo")
+    client.subscribe("juneshao/ipinfo") ## subscribes to all of the topics
     client.subscribe("juneshao/time")
     client.subscribe("juneshao/date")
     
@@ -32,13 +32,13 @@ def on_message(client, userdata, msg):
 
 #Custom message callback.
 def on_message_from_ipinfo(client, userdata, message):
-   print("Custom callback  - IP Message: "+message.payload.decode())
+   print("Custom callback  - IP Message: "+message.payload.decode()) ##if you get a message to ipinfo topic, print out the message
    
 def on_message_from_time(client, userdata, message):
-   print("Custom callback  - TIME: "+message.payload.decode())
+   print("Custom callback  - TIME: "+message.payload.decode()) ## if you get a message to the topic time print the message
    
 def on_message_from_date(client, userdata, message):
-   print("Custom callback  - DATE: "+message.payload.decode())
+   print("Custom callback  - DATE: "+message.payload.decode()) ## if you get a message to the topic date print the message
 
 if __name__ == '__main__':
     

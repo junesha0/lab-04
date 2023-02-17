@@ -14,8 +14,10 @@ def on_connect(client, userdata, flags, rc):
 
 if __name__ == '__main__':
     #get IP address
-    ip_address= "127.0.1.1"
-    """your code here"""
+    #get IP address - https://www.tutorialspoint.com/python-program-to-find-the-ip-address-of-the-client
+    hostname = socket.gethostname()
+    ip_address = socket.gethostbyname(hostname) ## I put my computer IP address
+    
     #create a client object
     client = mqtt.Client()
     
@@ -47,17 +49,17 @@ if __name__ == '__main__':
 
         #get date and time 
         """your code here"""
-        dt = datetime.now()
-        time_now = dt.strftime("%H:%M:%S")
-        date_nf = datetime.today()
-        date = date_nf.strftime("%B %d, %Y")
+        dt = datetime.now() ## Get the date and time
+        time_now = dt.strftime("%H:%M:%S") ## format the time
+        date_nf = datetime.today() # get the date today (I might actually not need this but)
+        date = date_nf.strftime("%B %d, %Y") # format the date
         ##(Source: programiz.com)
         
         #publish date and time in their own topics
         """your code here"""
-        client.publish("juneshao/time", f"{time_now}")
+        client.publish("juneshao/time", f"{time_now}") #publishes the variable time_now to the topic
         print("Publishing time")
-        client.publish("juneshao/date",f"{date}")
+        client.publish("juneshao/date",f"{date}") #publishes the variable date to the topic
         print("Publishing date")
         
         
